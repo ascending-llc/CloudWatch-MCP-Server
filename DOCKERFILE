@@ -1,0 +1,36 @@
+
+FROM python:3.11-slim
+
+#working directory
+WORKDIR /app
+
+#installing system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential curl\
+    && rm -rf /var/lib/apt/lists/*
+
+#uv install
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+#Copy Depenndancy Files
+COPY pyproject.toml uv.lock README.md ./
+
+#sync dependancies using uv lock 
+RUN uv sync --frozen
+
+#copy source files
+COPY . .
+
+#specify environment variables, may need to make region configurable later
+ENV PYTHONUNBUFFERED=1 \
+    AWS_REGION=us-east-1 \
+    LOG_LEVEL=INFO
+
+#xpose port 
+EXPOSE 8000
+
+#run mcp server wih uv loop
+
+
+
+

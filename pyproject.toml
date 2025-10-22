@@ -9,7 +9,10 @@ authors = [
 ]
 dependencies = [
     "boto3>=1.37.11",
+    "fastmcp>=2.12.5",
     "mcp[cli]>=1.6.0",
+    "pydantic>=2.12,<3",
+    "python-dotenv>=1.0.1"
 ]
 
 [dependency-groups]

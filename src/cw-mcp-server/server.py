@@ -10,7 +10,7 @@ from typing import List, Callable, Any, Type, Optional
 from functools import wraps
 import asyncio
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP #type: ignore
 from resources.cloudwatch_logs_resource import CloudWatchLogsResource
 from tools.search_tools import CloudWatchLogsSearchTools
 from tools.analysis_tools import CloudWatchLogsAnalysisTools
