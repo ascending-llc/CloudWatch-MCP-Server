@@ -6,7 +6,7 @@ WORKDIR /app
 
 #installing system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential curl\
+    build-essential curl \
     && rm -rf /var/lib/apt/lists/*
 
 #uv install
@@ -16,21 +16,23 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 COPY pyproject.toml uv.lock README.md ./
 
 #sync dependancies using uv lock 
-RUN uv sync --frozen
+RUN uv sync --frozen --no-cache
 
 #copy source files
 COPY . .
 
 #specify environment variables, may need to make region configurable later
 ENV PYTHONUNBUFFERED=1 \
+    AWS_PROFILE=default \
     AWS_REGION=us-east-1 \
-    LOG_LEVEL=INFO
+    LOG_LEVEL=INFO \
+    VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH" \
+    PYTHONPATH=/app/src
 
-#xpose port 
+
+#expose port 
 EXPOSE 8000
 
 #run mcp server wih uv loop
-
-
-
-
+CMD ["python", "-m", "cw_mcp_server.server"]

@@ -9,8 +9,8 @@ import json
 import sys
 import os
 
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+from mcp import ClientSession, StdioServerParameters #type: ignore
+from mcp.client.stdio import stdio_client  #type: ignore
 
 # Set up argument parser for the CLI
 parser = argparse.ArgumentParser(description="CloudWatch Logs MCP Client")

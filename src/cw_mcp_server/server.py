@@ -9,13 +9,15 @@ import argparse
 from typing import List, Callable, Any, Type, Optional
 from functools import wraps
 import asyncio
+import logging
 
-from mcp.server.fastmcp import FastMCP #type: ignore
+from fastmcp import FastMCP #type: ignore
+
 from cw_mcp_server.resources.cloudwatch_logs_resource import CloudWatchLogsResource
 from cw_mcp_server.tools.search_tools import CloudWatchLogsSearchTools
 from cw_mcp_server.tools.analysis_tools import CloudWatchLogsAnalysisTools
 from cw_mcp_server.tools.correlation_tools import CloudWatchLogsCorrelationTools
-import logging
+
 
 #logging setup
 logging.basicConfig(
@@ -490,10 +492,17 @@ async def correlate_logs(
 if __name__ == "__main__":
     logger.info("Initializing CloudWatch MCP server...")
     logger.info("AWS_PROFILE=%s  AWS_REGION=%s", os.getenv("AWS_PROFILE"), os.getenv("AWS_REGION"))
+    
+    if not args.profile:
+        args.profile = os.getenv("AWS_PROFILE", "default")
+    if not args.region:
+        args.region = os.getenv("AWS_REGION", "us-east-1")
+    
+    port = int(os.getenv("CLOUDWATCH_MCP_SERVER_PORT", "8000"))
+    host = os.getenv("CLOUDWATCH_MCP_SERVER_HOST", "0.0.0.0")
+
     try:
-        logger.info("Starting MCP event loop — waiting for client connection.")
-        mcp.run()
+        #asyncio.run(main())
+        mcp.run(transport="streamable-http",host=host, port=port)
     except KeyboardInterrupt:
         logger.info("KeyboardInterrupt received — shutting down gracefully.")
-    # Run the MCP server
-    mcp.run()
