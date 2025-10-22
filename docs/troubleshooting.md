@@ -6,7 +6,7 @@ There may be various issues you can run into while setting this up. Here are som
 
 **Server Disconnected**:
 ```
-MCP cw-mcp-server: Server Disconnected.
+MCP cw_mcp_server: Server Disconnected.
 ```
 1. Ensure your json file in the [ai integration guide](./ai-integration.md) is configured properly.
 2. Ensure you've set up your AWS credentials properly according to the [aws configuration](./aws-config.md)
@@ -63,7 +63,7 @@ In this case, try checking the server logs as outlined in the settings
 
 ![Claude Desktop Settings](./assets/claude-desktop-settings.png)
 
-then, click on the `Open Logs Folder` and open the `mcp-server-cw-mcp-server.log` file to see more details. 
+then, click on the `Open Logs Folder` and open the `mcp-server-cw_mcp_server.log` file to see more details. 
 
 **Amazon Q CLI terminating request**:
 

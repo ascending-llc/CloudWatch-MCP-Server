@@ -11,10 +11,19 @@ from functools import wraps
 import asyncio
 
 from mcp.server.fastmcp import FastMCP #type: ignore
-from resources.cloudwatch_logs_resource import CloudWatchLogsResource
-from tools.search_tools import CloudWatchLogsSearchTools
-from tools.analysis_tools import CloudWatchLogsAnalysisTools
-from tools.correlation_tools import CloudWatchLogsCorrelationTools
+from cw_mcp_server.resources.cloudwatch_logs_resource import CloudWatchLogsResource
+from cw_mcp_server.tools.search_tools import CloudWatchLogsSearchTools
+from cw_mcp_server.tools.analysis_tools import CloudWatchLogsAnalysisTools
+from cw_mcp_server.tools.correlation_tools import CloudWatchLogsCorrelationTools
+import logging
+
+#logging setup
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(asctime)s] [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger(__name__)
+
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="CloudWatch Logs Analyzer MCP Server")
@@ -479,5 +488,12 @@ async def correlate_logs(
 
 
 if __name__ == "__main__":
+    logger.info("Initializing CloudWatch MCP server...")
+    logger.info("AWS_PROFILE=%s  AWS_REGION=%s", os.getenv("AWS_PROFILE"), os.getenv("AWS_REGION"))
+    try:
+        logger.info("Starting MCP event loop — waiting for client connection.")
+        mcp.run()
+    except KeyboardInterrupt:
+        logger.info("KeyboardInterrupt received — shutting down gracefully.")
     # Run the MCP server
     mcp.run()

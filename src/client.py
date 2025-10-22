@@ -272,7 +272,7 @@ async def main():
 
     # Determine the server path (relative or absolute)
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    server_path = os.path.join(script_dir, "cw-mcp-server", "server.py")
+    server_path = os.path.join(script_dir, "cw_mcp_server", "server.py")
 
     # Prepare server arguments
     server_args = [server_path]
